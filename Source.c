@@ -60,8 +60,13 @@ void game(int limit){
 
 int main(){
     int limit = 10, newLimit = 0, input = 2;
-    int max = 100;
+    int max = INT_MAX;
     bool running = true;
+
+    FILE *fp;
+    fp = fopen("savedMax","r");
+    //starting value is 10
+    fscanf(fp, "%d",limit);
 
     //until prompted. The game will continue in the while loop
     while(running){
@@ -89,6 +94,10 @@ int main(){
                     printf("The limit must be less than the max\n");
                 }else{
                     limit = newLimit;
+                    fclose(fp);
+                    fp = fopen("savedMax","w");
+                    fprintf(fp,"%d", limit);
+
                     printf("limit changed to %d\n", limit);
                 }
                 break;
@@ -96,6 +105,7 @@ int main(){
                 //quiting game
                 printf("Powering off. Thanks for playing!\n");
                 running = false;
+                fclose(fp);
                 break;
             default:
                 //unknown input
